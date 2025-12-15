@@ -1,0 +1,46 @@
+FROM if705-sistema-levitacao-esfera-controller:latest
+
+RUN apt -y install git zsh
+
+RUN sh -c "$(curl -fsLS get.chezmoi.io)"
+
+RUN git clone https://github.com/neovim/neovim.git && \
+	cd neovim && \
+	git checkout v0.11.5 && \
+	make CMAKE_BUILD_TYPE=Release && \
+	make install
+
+RUN wget -qO /usr/local/bin/chezmoi https://github.com/twpayne/chezmoi/releases/latest/download/chezmoi-linux-amd64 && \
+    chmod +x /usr/local/bin/chezmoi
+
+RUN wget https://github.com/cli/cli/releases/download/v2.18.1/gh_2.18.1_linux_amd64.deb && \
+    dpkg -i gh_2.18.1_linux_amd64.deb && \
+    rm gh_2.18.1_linux_amd64.deb
+
+RUN apt -y install curl direnv gpg ripgrep
+
+RUN git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
+
+RUN curl -sS https://starship.rs/install.sh | sh -s -- --yes
+
+RUN mkdir -p /etc/apt/keyrings && \
+	wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc |  gpg --dearmor -o /etc/apt/keyrings/gierens.gpg && \
+echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" |  tee /etc/apt/sources.list.d/gierens.list && \
+ chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list && \
+ apt update && \
+ apt install -y eza
+
+RUN apt -y install ninja-build build-essential binutils-dev libunwind-dev && \
+	git clone https://github.com/LuaLS/lua-language-server && \
+	cd lua-language-server && \
+	chmod +x make.sh && \
+	./make.sh
+
+RUN apt -y install clangd npm 
+
+ENTRYPOINT ["/usr/bin/zsh"]
+
+
+
+
+
