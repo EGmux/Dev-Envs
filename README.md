@@ -1,0 +1,6 @@
+- fzf
+- eza
+- ripgrep
+- antidote
+- direnv
+- chezmoi
