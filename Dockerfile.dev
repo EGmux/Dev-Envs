@@ -1,4 +1,4 @@
-FROM if705-sistema-levitacao-esfera-controller:latest
+FROM $YOUR_IMAGE
 
 RUN apt -y install git zsh
 
@@ -36,7 +36,7 @@ RUN apt -y install ninja-build build-essential binutils-dev libunwind-dev && \
 	chmod +x make.sh && \
 	./make.sh
 
-RUN apt -y install clangd npm 
+RUN apt -y install $YOUR_PROGRAMMING_LANGUAGE_DEPS
 
 ENTRYPOINT ["/usr/bin/zsh"]
 
