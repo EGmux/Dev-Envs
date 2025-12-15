@@ -17,7 +17,7 @@ RUN wget https://github.com/cli/cli/releases/download/v2.18.1/gh_2.18.1_linux_am
     dpkg -i gh_2.18.1_linux_amd64.deb && \
     rm gh_2.18.1_linux_amd64.deb
 
-RUN apt -y install curl direnv gpg ripgrep
+RUN apt -y install curl direnv gpg ripgrep fzf
 
 RUN git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
 
